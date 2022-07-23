@@ -1,0 +1,34 @@
+:root{
+    --pink-color: #cc3566;
+    --primary-color: rgb(239, 37, 107);
+    --black-color: #000000;
+    --white-color: #FFF7FC;
+    --icon-color: #8A85BB;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+}
+
+.main {
+    margin-top: 10px ;
+}
+
+html{
+    font-family: 'Roboto', sans-serif;
+}
+
+.grid{
+    margin: 0 20px;
+   
+
+
+}
+
+
+.random.active,
+.repeat.active
+{
+    color: var(--primary-color);
+}

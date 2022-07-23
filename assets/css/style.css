@@ -1,0 +1,223 @@
+.music-menu{
+    margin: 0;
+    padding-top: 0;
+    background-color: #F5F5F5;
+    height: auto;
+    border-radius: 2px;
+    position: fixed;
+    z-index: 10;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+}
+.music-menu::before{
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 12px;
+    background-color: #ffff;
+    z-index: 9;
+    top: -11px;
+}
+
+.music-menu_header{
+    text-align: center;
+    color: var(--pink-color);
+    font-weight: 900;
+    font-size: 0.95rem;
+    margin-top: 0;
+    padding-top: 10px ;
+}
+
+.song_name{
+    text-align: center;
+    font-weight: 900;
+    color: var(--black-color);
+    font-size: 1.2rem;
+    margin: 10px 0 20px ;
+}
+
+.song_img-wrap{
+    width: 275px;
+    height: 275px;
+    display: block;
+    border-radius: 50%;
+    overflow: hidden;
+    shape-outside: circle();
+    clip-path: circle();
+    text-align: center;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.song_img{
+    height: 100%;
+    margin: 0;
+    
+}
+
+
+.music-menu_control{
+padding: 17px 0;
+}
+
+.control-icon{
+    margin: 10px 0 0;
+    width: 100%;
+    display: inline-flex;
+    justify-content: space-evenly;
+    font-size: 1.3rem;
+    align-items: center;
+    color: var(--icon-color);
+    margin-bottom: 5px;
+}
+
+#play-icon-wrap{
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    height: 55px;
+    width: 55px;
+    display: flex;
+
+
+}
+
+i.play-icon, 
+i.pause-icon{
+    color: var(--white-color);
+    font-size: 1.45rem;
+    margin: auto;
+}
+
+i.pause-icon{
+    display: none;
+}
+
+i.play-icon{
+    display: block;
+}
+
+
+.play_active {
+    display: block!important;   
+}
+
+.progress-bar{
+    margin: 11px 16px 35px;
+}
+
+/* .progress{
+    width: 100%;
+    margin-bottom: 10px;
+} */
+
+
+
+.range{
+    width: 100%;
+    -webkit-appearance: none;
+    background: transparent;
+}
+
+.range::-webkit-slider-runnable-track{
+    /* css cho thanh bar range */
+    height: 6px;
+    background-color: #333;
+}  
+
+.range::-webkit-slider-thumb{
+    /* css cho cục mút của thanh range */
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    margin-top: -5px;
+    background-color: var(--primary-color);
+    border-radius: 100rem;
+    box-shadow: 0 0 0 5px var(--white-color), 0 0 0 7px rgba(100, 101, 100, 0.3);
+
+    
+}   
+
+
+.play-list{
+    position: relative;
+    margin: 10px;
+
+}
+
+
+
+.s-song_img-wrap{
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    overflow: hidden;
+    text-align: center;
+    margin: auto;
+    display: inline-flex;
+    justify-content: center;
+    transition: height 2s linear;
+}
+
+.s-song_img{
+    margin: 0;
+}
+
+.play-list{
+    margin: 0 5px;
+    font-weight: 550;
+    font-size: 1.1rem;
+}
+
+.song-info{
+    display: flex;
+    align-items: center;
+    margin: 0 ;
+    
+}
+
+.song-item{
+    background-color: var(--white-color);
+    display: flex;
+    height: auto;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0px 1px 3px rgb(51 51 51 / 50%);
+}
+
+.s-song-header{
+    margin: 0 10px;
+    line-height: 30px;
+}
+
+.s-song-name{
+  
+    color: var(--black-color);
+   
+}
+
+.s-song-singer{
+    color: #9E9E9E;
+    font-weight: 300;
+    font-size: 0.95rem;
+    opacity: 0.9;
+}
+
+.option-select{
+    margin: 0;
+}
+
+.song-item + .song-item{
+    margin-top: 10px;
+}
+
+
+.song-item.song_active{
+    background-color: #EA2558;
+    color: var(--white-color);
+
+}
+
