@@ -32,3 +32,20 @@ html{
 {
     color: var(--primary-color);
 }
+/* 
+.song_img.active {
+    transform: rotate(100deg)!important;
+
+} */
+
+.song-item.active{
+    background-color: var(--primary-color);
+}
+
+.song-item.active .s-song-name,
+.song-item.active .s-song-singer,
+.song-item.active .option-select
+{
+    color: rgba(255, 255, 255, 0.9);
+
+}

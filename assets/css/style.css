@@ -3,7 +3,7 @@
     padding-top: 0;
     background-color: #F5F5F5;
     height: auto;
-    border-radius: 2px;
+    border-radius: 10px;
     position: fixed;
     z-index: 10;
     top: 10px;
@@ -43,7 +43,7 @@
     display: block;
     border-radius: 50%;
     overflow: hidden;
-    shape-outside: circle();
+    /* shape-outside: circle(); */
     clip-path: circle();
     text-align: center;
     margin: auto;
@@ -67,10 +67,11 @@ padding: 17px 0;
     width: 100%;
     display: inline-flex;
     justify-content: space-evenly;
-    font-size: 1.3rem;
+    font-size: 1.6rem;
     align-items: center;
     color: var(--icon-color);
     margin-bottom: 5px;
+    gap: 0 47px;
 }
 
 #play-icon-wrap{
@@ -79,15 +80,34 @@ padding: 17px 0;
     height: 55px;
     width: 55px;
     display: flex;
+}
 
+
+#next,
+#prev,
+.repeat,
+.random {
+    opacity: 0.5;
+    transition: opacity 0.2s linear, transform 0.5s linear
+}
+
+#next:hover,
+#prev:hover,
+.repeat:hover,
+.random:hover{
+    opacity: 1;
 
 }
+
+
 
 i.play-icon, 
 i.pause-icon{
     color: var(--white-color);
     font-size: 1.45rem;
     margin: auto;
+    position: relative;
+    padding: 15px 20px;
 }
 
 i.pause-icon{
@@ -117,28 +137,53 @@ i.play-icon{
 .range{
     width: 100%;
     -webkit-appearance: none;
-    background: transparent;
-}
+     /* background: transparent; */
+} 
 
 .range::-webkit-slider-runnable-track{
     /* css cho thanh bar range */
     height: 6px;
+    border-radius: 10px;
     background-color: #333;
+    position: relative;
 }  
 
 .range::-webkit-slider-thumb{
     /* css cho cục mút của thanh range */
     -webkit-appearance: none;
+    
+    margin-top: -7px;
+    
+    border-radius: 100rem;
+   
+    z-index: 999;
+    /* cursor: ew-resize; */
+ 
     width: 20px;
     height: 20px;
-    margin-top: -5px;
-    background-color: var(--primary-color);
-    border-radius: 100rem;
-    box-shadow: 0 0 0 5px var(--white-color), 0 0 0 7px rgba(100, 101, 100, 0.3);
-
-    
+	-webkit-appearance: none;
+	cursor: ew-resize;
+	background-color: var(--primary-color);
+	/* box-shadow: -340px 0 0 320px #1597ff, inset 0 0 0 40px #1597ff; */
+     box-shadow:0 0 0 5px var(--white-color), 0 0 0 7px var(--primary-color);
+	
 }   
+.range::-ms-track {
+    /* css cho cục mút của thanh range */
+    background-color: #333;
+    
+}
 
+.current-range{
+    content: "";
+    width: 100%;
+    height: 6px;
+    border-radius: 10px;
+    background-color: #9E9E9E;
+    position: relative;
+    z-index: 1;
+    top: -10px;
+}
 
 .play-list{
     position: relative;
@@ -219,5 +264,17 @@ i.play-icon{
     background-color: #EA2558;
     color: var(--white-color);
 
+}
+
+.timer{
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.current_time,
+.duration_time{
+    font-weight: 400;
+    opacity: 0.5;
 }
 

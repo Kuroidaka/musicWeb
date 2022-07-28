@@ -4,44 +4,26 @@ $$ = document.querySelectorAll.bind(document);
 
 
 
-const musicMenuHeight = $('.music-menu').clientHeight ; 
+let musicMenuHeight = $('.music-menu').clientHeight ; 
 
-const songs = $$('.song-item');
-const songNames = $$('.s-song-name');
-const songSingers = $$('.s-song-singer');
 
-// song click
 
-    songs.forEach(function(song, index) {
-        songName = songNames[index];
-        // songSinger = songSingers[index];
- 
 
-        song.onclick = function(){
-            const songActive = $('.song-item.song_active');
-            
-
-            songActive.classList.remove('song_active');
-            
-            this.classList.add('song_active');
-
-        } 
-
-    })
 
 // css để cách list music với menu
 var playListFix = $('.play-list');
-
+    
     Object.assign(playListFix.style, {
         position : 'relative',
         top: musicMenuHeight + 10 + 'px',
 
     })
-
+    // console.log(musicMenuHeight);
 
 //app function
         const heading = $('.music-menu .song_name');
         const currentSongImage = $('.song_img');
+        const currentSongImageWrap = $('.song_img-wrap');
         const audio = $('#audio');
         const playBtn = $('.play-icon'); 
         const pauseBtn = $('.pause-icon');
@@ -50,14 +32,20 @@ var playListFix = $('.play-list');
         const prevBtn = $('#prev');
         const repeatBtn = $('.repeat');
         const randomBtn = $('.random');
+        const menuBtns = $$('.jsChangeIcon');
+        const changeIconRepeat = $('.jsChangeIconRepeat');
+        const songDurationTime = $('.duration_time');
+        const songCurrentTime = $('.current_time');
+        const currentBar = $('.current-range');
 
-        
+        const PLAYER_STORAGE_KEY = 'WEB_PLAYER';
 
 const app = {
     currentIndex: 0,
     // isplaying : false,
     isRandom : false,
     isRepeat : false,
+    config: JSON.parse(localStorage.getItem(PLAYER_STORAGE_KEY)) || {},
     songs: [
         {
             name: 'Yêu em hơn mỗi ngày',
@@ -113,14 +101,24 @@ const app = {
             path: './assets/songs/LỜI ĐƯỜNG MẬT - LYLY ft HIEUTHUHAI (Official Music Video).mp3',
             image: './assets/img/song/Lời đường mật.jpeg'
         },
+        {
+            name: 'Xem Như Tôi Từng Cưới Được Cô Ấy',
+            singer: 'Mạc Khiếu Tỷ Tỷ',
+            path: './assets/songs/[Vietsub] Xem Như Tôi Từng Cưới Được Cô Ấy - Mạc Khiếu Tỷ Tỷ - 当我娶过她 - 莫叫姐姐.mp3',
+            image: './assets/img/song/coi như tôi cưới cô ấy.jpeg'
+        },
 
 
     ],
+    setConfig: function(key, value) {
+        this.config[key] = value;
+        localStorage.setItem(PLAYER_STORAGE_KEY,JSON.stringify(this.config));
+    },
 
     render: function() {
-        const htmls = this.songs.map(function(song) {
+        const htmls = this.songs.map(function(song,index) {
             return `
-            <div class="song-item ">
+            <div class="song-item">
             <div class="song-info">
                 <div class="s-song_img-wrap">
                     <img src="${song.image}" alt="" class="s-song_img">
@@ -147,15 +145,18 @@ const app = {
 
         $('.play-list').innerHTML = htmls.join('');
     },
+
     handleEvent: function() {
         const songImage = $('.song_img-wrap');
         const songImageHeight = songImage.clientHeight;
         const _this = this;
-
+        const currentSongItems = $$('.song-item');
+        // console.log(currentSongItems);
         // song image rotate
 
-        const currentSongImageRotate = currentSongImage.animate({
-            transform: 'rotate(360deg)'
+        const currentSongImageRotate = currentSongImage.animate(
+        {
+          transform: 'rotate(360deg)'   
         },
         {
             duration: 10000,
@@ -175,20 +176,57 @@ const app = {
         // check playing
 
         const playBtnActive = $('.play-icon.play_active');
-        playBtn.onclick = () => {
-            audio.play();
+        playBtn.onclick = function() { 
+                audio.play();    
+                this.animate([
+                    {
+                        transform: 'scale(1)'   
+                    },
+                    {
+                        transform: 'scale(1.3)'   
+                    },
+                    {
+                        transform: 'scale(1)'   
+                    }
+
+                ],
+                {
+                    duration: 500,
+                    iterations: 1
+                })
         }
 
-        pauseBtn.onclick = () => {
+        pauseBtn.onclick = function() {
             audio.pause();
+            this.animate([
+                {
+                    transform: 'scale(1)'   
+                },
+                {
+                    transform: 'scale(1.3)'   
+                },
+                {
+                    transform: 'scale(1)'   
+                }
+
+            ],
+            {
+                duration: 500,
+                iterations: 1
+            })
         }
 
+        this.menuIconchange();
         //  change playing pausing icon
 
         audio.onplay = function() {
             playBtn.style.display = 'none';
             pauseBtn.style.display = 'block';
             currentSongImageRotate.play();
+
+            // currentSongImage.classList.remove('active');
+            
+            // console.log(currentSongImageRotate.style.transform);
            
         }
 
@@ -201,62 +239,124 @@ const app = {
         // range move following the playing music
         
         percentChange = function() {
+            // console.log(range.value);
             if(audio.duration){
-                const currentPercent = Math.floor(audio.currentTime/audio.duration*100);  
-                
-                if(range.value != currentPercent){
+                const currentPercent = audio.currentTime/audio.duration*100;  
                     range.value = currentPercent;
-                    // console.log(range.value);
-                }        
-                
             }
+            // _this.currentBarUpdate();
         } 
+
         // change range 
 
-        audio.ontimeupdate = function() {
+        audio.ontimeupdate = function(e) {
             percentChange();
-        }
+            audio.addEventListener('loadeddata',function() {
+                let autoTime = e.target.duration;
+                // console.log(autoTime);
+                let songDurationTimeMin = Math.floor(autoTime/60); 
+                
+                let songDurationTimeSec = Math.floor(autoTime%60);
+                // console.log(songDurationTimeSec);
+                songDurationTimeSec = songDurationTimeSec < 10 ? `0${songDurationTimeSec}`: songDurationTimeSec;
+                songDurationTime.innerText = `${songDurationTimeMin}:${songDurationTimeSec}`;
 
-
-        
-        range.onchange = function(e) {
                
-            audio.currentTime = e.target.value * audio.duration / 100;
+               
+            })
+            
+            let autoCurrentTime = e.target.currentTime;
+            // console.log(autoCurrentTime);
+            let songCurrentTimeMin = Math.floor(autoCurrentTime/60); 
+            
+            let songCurrentTimeSec = Math.floor(autoCurrentTime%60);
+            // console.log(songCurrentTimeSec);
+            songCurrentTimeSec = songCurrentTimeSec < 10 ? `0${songCurrentTimeSec}`: songCurrentTimeSec;
+            songCurrentTime.innerText = `${songCurrentTimeMin}:${songCurrentTimeSec}`;
+
+            // currentBar.style.width = `${range.value}%`;
+            // console.log(currentBar.style.width, range.value);
             
         }
+
+        range.oninput = function(e) {
+            audio.pause();
+            audio.currentTime = e.target.value * audio.duration / 100;
+
+            range.ontouchend = function() {
+                audio.play();
+            }
+
+            range.onmouseup = function() {
+                audio.play();
+            }
+
+          
+        }
+        
+        
         // on phone 
 
-        range.ontouchstart = function () {
-            range.ontouchend = function (e) {
-                console.log(e.target.value);
-            }
-           
-            
-        }
+        // range.ontouchstart = function () {
+        //     audio.pause();
+        //         console.log(this.value);
+        // }
 
-        range.ontouchmove = function () {
-            audio.pause();
-            range.onchange = function() {
+        // range.ontouchmove = function () {
+        //     audio.pause();
+        //     range.onchange = function() {
                
-                audio.currentTime = this.value * audio.duration / 100;
-                // console.log(audio.currentTime);
-            }
-            range.ontouchend = function (){
-                audio.play();
+        //         audio.currentTime = this.value * audio.duration / 100;
+        //         // console.log(audio.currentTime);
+        //     }
+        //     range.ontouchend = function (){
+        //         // audio.play();
     
-            }
+        //     }
             
-        }
+        // }
 
         //  click next button
 
+        
+        activeCurrentSong =  function(activeIndex) {
+          
+            currentSongItems[activeIndex].classList.remove('active');
+            currentSongItems[_this.currentIndex].classList.add('active');
+            
+        }
 
+        changeView = function(currentActiveSongItem){
+            setTimeout(() => {
+                currentActiveSongItem.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center',
+                    inline: 'center'
+                });
+            }, 150);
+        }
+        
+        
         nextBtn.onclick = function() {
-            _this.nextSongEventWhenClicked();
+            var activeIndex = _this.currentIndex;
+            if(_this.isRandom){
+                _this.playRandomSong();
+                range.value = 0;
+                audio.play();
+
+            }
+            else {
+                _this.next();
+                range.value = 0;
+                audio.play();
+            }
+            activeCurrentSong(activeIndex);
+            changeView(currentSongItems[_this.currentIndex]);
+    
         }
         //  click prev button
         prevBtn.onclick = function(e) {
-
+            var activeIndex = _this.currentIndex;
             if(_this.isRandom){
                 _this.playRandomSong();
                 range.value = 0;
@@ -268,17 +368,42 @@ const app = {
                 audio.play();
 
             }
-
-           
+            activeCurrentSong(activeIndex);
+            changeView(currentSongItems[_this.currentIndex]);
         }
         
+        // click on song        
+        currentSongItems.forEach(function(currentSongItem, index) {
+
+            currentSongItem.onclick = function() {
+                range.value = 0;
+                var activeIndex = _this.currentIndex;
+                currentActiveSongItem = $('.song-item.active');
+                currentActiveSongItem.classList.remove('active');
+                currentSongItem.classList.add('active');
+
+
+                _this.currentIndex = index;
+                _this.loadCurrentSong();
+                audio.play();
+
+                
+
+        }
+    } )
+
         //  click random btn
 
         randomBtn.onclick = function() {
-            
             this.classList.toggle('active');
             _this.isRandom = this.classList.contains('active');
+            this.style.opacity = '1';
+            if(!_this.isRandom){
+                this.style.opacity = '0.5';
 
+            }
+
+            _this.setConfig('isRandom', _this.isRandom);
         }
 
         
@@ -287,10 +412,17 @@ const app = {
         repeatBtn.onclick = function() {
             this.classList.toggle('active');
             _this.isRepeat = this.classList.contains('active');
+            this.style.opacity = '1';
+            if(!_this.isRepeat){
+                this.style.opacity = '0.5';
+            }
+
+            _this.setConfig('isRepeat', _this.isRepeat);
         }
 
         //  when audio end
         audio.onended = function() {
+            var activeIndex = _this.currentIndex;
             if(_this.isRepeat) {
                 _this.loadCurrentSong();
                 this.play();
@@ -298,8 +430,18 @@ const app = {
             else {
                 _this.nextSongEventWhenClicked();
             }
+
+            activeCurrentSong(activeIndex);
+            changeView(currentSongItems[_this.currentIndex]);
+
             
         }
+
+        // when click menu btn 
+
+        
+       
+        
     },
     defineProperties: function() {
         Object.defineProperty(this, 'currentSong', { 
@@ -319,16 +461,34 @@ const app = {
         this.currentIndex= newIndex;
         this.loadCurrentSong();
 
-    },
-
-    repeatCurrentSong : function() {
-
-    },
+    },    
     loadCurrentSong: function() {
         heading.textContent = this.currentSong.name;
         currentSongImage.src = this.currentSong.image;
         audio.src = this.currentSong.path;
     },
+    loadConfig: function() {
+        this.isRandom = this.config.isRandom;
+        this.isRepeat = this.config.isRepeat;
+        if(this.isRandom){
+            randomBtn.classList.toggle('active');
+            randomBtn.style.opacity = '1';
+            if(!this.isRandom){
+                randomBtn.style.opacity = '0.5';
+            }
+        }
+
+        if(this.isRepeat){
+            repeatBtn.classList.toggle('active');
+            repeatBtn.style.opacity = '1';
+            if(!this.isRepeat){
+                repeatBtn.style.opacity = '0.5';
+            }
+        }
+
+    },
+
+
     next: function() {
         this.songs[this.currentIndex++];
         
@@ -338,6 +498,44 @@ const app = {
 
         // console.log(this.currentIndex,  this.songs.length );
         this.loadCurrentSong();
+
+    },
+    menuIconchange : function() {
+        menuBtns.forEach((menuBtn) => {
+            menuBtn.onclick =function() {
+                    this.animate([
+                        {
+                            transform: 'scale(1)'   
+                        },
+                        {
+                            transform: 'scale(1.3)'   
+                        },
+                        {
+                            transform: 'scale(1)'   
+                        }
+
+                    ],
+                    {
+                        duration: 500,
+                        iterations: 1
+                    })
+            }
+
+        }
+        )
+
+        changeIconRepeat.onclick = function() {
+            this.animate({
+                transform: 'rotate(360deg)'
+            },
+            {   
+                duration: 500,
+                iterations: 1
+
+            }
+            )
+
+        }
 
     },
     nextSongEventWhenClicked: function() {
@@ -352,7 +550,7 @@ const app = {
             audio.play();
 
         }
-        
+     
 
     },
     prev : function() {
@@ -361,18 +559,26 @@ const app = {
         if(this.currentIndex < 0) {
             this.currentIndex = this.songs.length -1;
         }
-
-        console.log(this.currentIndex,  this.songs.length );
+        // console.log(this.currentIndex,  this.songs.length );
         this.loadCurrentSong();
     },
-
-    start: function() {
+    checkCurrentSong: function(){
     
+            const currentSongItems = $$('.song-item');
+            currentSongItems[0].classList.add('active');
+            
+
+       
+    },
+    start: function() {
         this.defineProperties();
-        this.handleEvent();
         this.render();
+        this.checkCurrentSong();
+        this.loadConfig();
+        this.handleEvent();
         this.loadCurrentSong();
-    }
+
+    }   
 
 }
 
