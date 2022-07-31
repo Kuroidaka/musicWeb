@@ -12,11 +12,15 @@
 }
 
 .main {
-    margin-top: 10px ;
+
 }
 
 html{
     font-family: 'Roboto', sans-serif;
+}
+
+body{ 
+    /* background-color: #000000; */
 }
 
 .grid{
@@ -30,7 +34,11 @@ html{
 .random.active,
 .repeat.active
 {
-    color: var(--primary-color);
+    /* color: var(--primary-color); */
+    background-image: linear-gradient(#9796f0 0%,  #fbc7d4 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 /* 
 .song_img.active {
@@ -39,7 +47,10 @@ html{
 } */
 
 .song-item.active{
-    background-color: var(--primary-color);
+    
+    /* background-image: linear-gradient(#9796f0 0%,  #fbc7d4 100%); */
+    background-image: linear-gradient(#5754ea 0%,  #f8b8c8 100%); 
+    opacity: 1;
 }
 
 .song-item.active .s-song-name,

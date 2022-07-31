@@ -16,72 +16,89 @@
 
 </head>
 <body>
-    <div class="main">
-       
-    <div class="grid">
 
-    <div class="music-menu">
-        <header class="music-menu_header">
-            Now playing:
-        </header>
+    <div class="music-onPlay-menu">
+
+        <div class="entire-background-img-wrap"></div>
+        <div class="entire-background-img"></div>
         
-        <div class="song_name">
-            Yêu em hơn mỗi ngày
-        </div>
-
-        <div class="song_img-wrap">
-            <img src="/assets/img/song/Yêu em hơn mỗi ngày.jpg" alt="" class="song_img">
-        </div>
-
-        <div class="music-menu_control">
-            <div class="control-icon">
-                <div class="repeat">
-                    <i class="jsChangeIconRepeat fa-solid fa-arrow-rotate-right"></i>
-                </div>
-                <div id="prev">
-                    <i class="jsChangeIcon fa-solid fa-backward-step"></i>
-                </div>
-                
-                <div id="play-icon-wrap">
-                    <i class="play-icon fa-solid fa-play"></i>
-                    <i class="pause-icon fa-solid fa-pause"></i>
-                </div>
-                <div id="next">
-                    <i class="jsChangeIcon fa-solid fa-forward-step"></i>
-                </div>
-                <div class="random">
-                        <i class="jsChangeIcon fa-solid fa-shuffle"></i>
-                </div>
-
-
-            </div>
-        </div>
-        
-        <div class="progress-bar">
-            <input type="range" name="range" value="0" id="range" class="range" min="0" step="1" max="100">
-            <!-- <div class="current-range"></div> -->
-            <!-- <progress id="progress" class="progress" type="range" value="90" min="0" step="1" max="100"> </progress> -->
-            <div class="timer">
-                <span class="current_time">0:00</span>
-                <span class="duration_time"></span>
-            </div>
-        </div>
-
-       
-
-        <audio src="" id="audio"></audio>
-    </div>
-
-    <div class="play-list">
-             <!-- song 1  -->
-            
-      
-    </div>
-
-</div>
            
+        <div class="grid">
+    
+            
+    
+                <div class="music-menu">
+                    <div class="background-img"></div>
+                    <header class="music-menu_header">
+                        Now playing:
+                    </header>
+                    
+                    <div class="song_img">
+                        <div class="song_img-wrap">    
+                        </div>
+            
+                    </div>
+    
+                    <div class="song_name">
+                        Yêu em hơn mỗi ngày
+                    </div>
+                   
+            
+                    <div class="music-menu_control">
+                        <div class="control-icon">
+                            <div class="repeat">
+                                <i class=" fa-solid fa-arrow-rotate-right"></i>
+                            </div>
+                            <div id="prev">
+                                <i class="jsChangeIcon fa-solid fa-backward-step"></i>
+                            </div>
+                            
+                            <div id="play-icon-wrap">
+                                <i class="play-icon fa-solid fa-play"></i>
+                                <i class="pause-icon fa-solid fa-pause"></i>
+                            </div>
+                            <div id="next">
+                                <i class="jsChangeIcon fa-solid fa-forward-step"></i>
+                            </div>
+                            <div class="random">
+                                    <i class="fa-solid fa-shuffle"></i>
+                            </div>
+            
+            
+                        </div>
+                    </div>
+                    
+                    <div class="progress-bar">
+                        <input type="range" name="range" value="0" id="range" class="range" min="0" step="1" max="100">
+                        <!-- <div class="current-range"></div> -->
+                        <!-- <progress id="progress" class="progress" type="range" value="90" min="0" step="1" max="100"> </progress> -->
+                        <div class="timer">
+                            <span class="current_time">0:00</span>
+                            <span class="duration_time"></span>
+                        </div>
+                    </div>
+            
+                   
+            
+                    <audio src="" id="audio"></audio>
+                
+                </div>
+            
+                <div class="play-list-wrap">
+                    <div class="play-list">
+                             <!-- song 1  -->
+                            
+                      
+                    </div>
+    
+    
+                </div>            
+    
+               
+    
+          
+    </div>
 
-      
     <script src="/assets/js/index.js"></script>
 
 </body>
