@@ -462,6 +462,8 @@ const app = {
                 return this.songs[this.currentIndex];
             }
         })
+
+        
     },
     playRandomSong : function() {
         
@@ -480,7 +482,8 @@ const app = {
         currentSongImage.style.backgroundImage = `url("${this.currentSong.image}")`;
         entireBackgroundImage.style.backgroundImage = `url("${this.currentSong.image}")`;
         entireBackgroundImageWrap.style.backgroundImage = `url("${this.currentSong.image}")`;
-        console.log(this.currentSong.image,currentSongImage);
+        // console.log(this.currentSong.image,currentSongImage);
+
         audio.src = this.currentSong.path;
     },
     loadConfig: function() {
@@ -594,7 +597,7 @@ const app = {
         this.checkCurrentSong();
         this.loadConfig();
         this.handleEvent();
-  
+       
 
     }   
 
