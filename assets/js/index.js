@@ -51,7 +51,10 @@ var playListWrapFix = $('.play-list-wrap');
 
 
 const app = {
-    currentIndex: 0,
+    currentIndex: JSON.parse(localStorage.getItem('current song index')),
+    updateCurrentIndex: function() {
+        localStorage.setItem('current song index', JSON.stringify(this.currentIndex));
+    },
     // isplaying : false,
     isRandom : false,
     isRepeat : false,
@@ -98,8 +101,9 @@ const app = {
         const songImage = $('.song_img-wrap');
         const songImageHeight = songImage.clientHeight;
         const songImageWidth = songImage.clientWidth;
+        const currentSongItems = $$('.song-item');  
         const _this = this;
-        const currentSongItems = $$('.song-item');
+        
         // console.log(currentSongItems);
         // song image rotate
 
@@ -269,22 +273,9 @@ const app = {
         //  click next button
 
         
-        var activeCurrentSong =  function(activeIndex) {
-          
-            currentSongItems[activeIndex].classList.remove('active');
-            currentSongItems[_this.currentIndex].classList.add('active');
-            
-        }
+       
 
-        var changeView = function(currentActiveSongItem){
-            setTimeout(() => {
-                currentActiveSongItem.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'center',
-                    inline: 'center'
-                });
-            }, 150);
-        }
+        
         
         
         nextBtn.onclick = function() {
@@ -300,8 +291,8 @@ const app = {
                 range.value = 0;
                 audio.play();
             }
-            activeCurrentSong(activeIndex);
-            changeView(currentSongItems[_this.currentIndex]);
+            _this.activeCurrentSong(activeIndex );
+            _this.changeView(currentSongItems[_this.currentIndex]);
     
         }
         //  click prev button
@@ -318,8 +309,9 @@ const app = {
                 audio.play();
 
             }
-            activeCurrentSong(activeIndex);
-            changeView(currentSongItems[_this.currentIndex]);
+
+            _this.activeCurrentSong(activeIndex );
+            _this.changeView(currentSongItems[_this.currentIndex]);
         }
         
         // click on song        
@@ -381,14 +373,21 @@ const app = {
                 _this.nextSongEventWhenClicked();
             }
 
-            activeCurrentSong(activeIndex);
-            changeView(currentSongItems[_this.currentIndex]);
+            _this.activeCurrentSong(activeIndex );
+            _this.changeView(currentSongItems[_this.currentIndex]);
 
             
         }
 
         // when input range
        
+        
+    },
+    activeCurrentSong : function( activeIndex) {
+        
+        const currentSongItems = $$('.song-item');  
+        currentSongItems[activeIndex].classList.remove('active');
+        currentSongItems[this.currentIndex].classList.add('active');
         
     },
     defineProperties: function() {
@@ -413,6 +412,7 @@ const app = {
 
     },    
     loadCurrentSong: function() {
+       
         heading.textContent = this.currentSong.name;
         currentSongImage.style.backgroundImage = `url("${this.currentSong.image}")`;
         entireBackgroundImage.style.backgroundImage = `url("${this.currentSong.image}")`;
@@ -420,6 +420,10 @@ const app = {
         // console.log(this.currentSong.image,currentSongImage);
 
         audio.src = this.currentSong.path;
+        this.updateCurrentIndex();
+        const currentSongItems = $$('.song-item'); 
+        this.activeCurrentSong(this.currentIndex);
+        this.changeView(currentSongItems[this.currentIndex]);
     },
     loadConfig: function() {
         this.isRandom = this.config.isRandom;
@@ -516,24 +520,23 @@ const app = {
         // console.log(this.currentIndex,  this.songs.length );
         this.loadCurrentSong();
     },
-    checkCurrentSong: function(){
-    
-            const currentSongItems = $$('.song-item');
-            currentSongItems[0].classList.add('active');
-            
 
-       
+    changeView : function(currentActiveSongItem){
+        setTimeout(() => {
+            currentActiveSongItem.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center',
+                inline: 'center'
+            });
+        }, 150);
     },
 
     start: function() {
         this.defineProperties();
-        this.loadCurrentSong();
         this.render();
-        this.checkCurrentSong();
         this.loadConfig();
         this.handleEvent();
-       
-
+        this.loadCurrentSong();
     }   
 
 }
