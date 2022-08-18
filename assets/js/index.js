@@ -4,27 +4,10 @@ const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
 
 
-console.log (songs);
-
 let musicMenuHeight = $('.music-menu').clientHeight ; 
-
-
-
-
-// css để cách list music với menu
 var playListFix = $('.play-list');
 var playListWrapFix = $('.play-list-wrap');
-
-
-    // Object.assign(playListFix.style, {
-    //     position : 'relative',
-    //     top: musicMenuHeight + 10 + 'px',
-
-    // })
-    // console.log(musicMenuHeight);
-
-//app function
-        const heading = $('.music-menu .song_name');
+const heading = $('.music-menu .song_name');
         // const currentSongImage = $('.song_img');
         const currentSongImage = $('.song_img-wrap');
         const audio = $('#audio');
@@ -48,6 +31,21 @@ var playListWrapFix = $('.play-list-wrap');
 
         const PLAYER_STORAGE_KEY = 'WEB_PLAYER';
 
+
+
+// css để cách list music với menu
+
+
+
+    // Object.assign(playListFix.style, {
+    //     position : 'relative',
+    //     top: musicMenuHeight + 10 + 'px',
+
+    // })
+    // console.log(musicMenuHeight);
+
+//app function
+        
 
 
 const app = {
@@ -445,8 +443,6 @@ const app = {
         }
 
     },
-
-
     next: function() {
         this.songs[this.currentIndex++];
         
@@ -520,7 +516,6 @@ const app = {
         // console.log(this.currentIndex,  this.songs.length );
         this.loadCurrentSong();
     },
-
     changeView : function(currentActiveSongItem){
         setTimeout(() => {
             currentActiveSongItem.scrollIntoView({
