@@ -6,9 +6,35 @@
     --icon-color: #8A85BB;
 }
 
+
+
 * {
     padding: 0;
     margin: 0;
+    box-sizing: border-box;
+}
+
+#root{
+    display: flex;
+    justify-content: center;
+
+}
+
+/* .app{
+    position: relative;
+    border: 5px solid;
+    animation: fadeup 0.3s linear;
+    display: flex;
+    justify-content: center;
+
+} */
+@keyframes fadeup {
+    from{
+        transform: translateY(100%);
+    }
+    to{
+        transform: translateY(0);
+    }
 }
 
 .main {
@@ -60,4 +86,8 @@ body{
 {
     color: rgba(255, 255, 255, 0.9);
 
+}
+
+.icon {
+    color: var(--white-color);
 }

@@ -7,6 +7,7 @@
     <title>Cảnh Music Web</title>
    <link rel="stylesheet" href="/assets/css/base.css">
    <link rel="stylesheet" href="/assets/css/style.css">
+   <link rel="stylesheet" href="/assets/css/responsive.css">
    <link rel="stylesheet" href="/assets/font/fontawesome-free-6.1.1-web/css/all.min.css">
    <link rel="preconnect" href="https://fonts.googleapis.com">
    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,88 +17,121 @@
 
 </head>
 <body>
-
-    <div class="music-onPlay-menu">
-
-        <div class="entire-background-img-wrap"></div>
-        <div class="entire-background-img"></div>
-        
+   
+        <div class="app">
            
-        <div class="grid">
-    
-            
-    
-                <div class="music-menu">
-                    <div class="background-img"></div>
-                    <header class="music-menu_header">
-                        Now playing:
-                    </header>
-                    
-                    <div class="song_img">
-                        <div class="song_img-wrap">    
-                        </div>
-            
-                    </div>
-    
-                    <div class="song_name">
-                        Yêu em hơn mỗi ngày
-                    </div>
-                   
-            
-                    <div class="music-menu_control">
-                        <div class="control-icon">
-                            <div class="repeat">
-                                <i class=" fa-solid fa-arrow-rotate-right"></i>
-                            </div>
-                            <div id="prev">
-                                <i class="jsChangeIcon fa-solid fa-backward-step"></i>
-                            </div>
-                            
-                            <div id="play-icon-wrap">
-                                <i class="play-icon fa-solid fa-play"></i>
-                                <i class="pause-icon fa-solid fa-pause"></i>
-                            </div>
-                            <div id="next">
-                                <i class="jsChangeIcon fa-solid fa-forward-step"></i>
-                            </div>
-                            <div class="random">
-                                    <i class="fa-solid fa-shuffle"></i>
-                            </div>
-            
-            
-                        </div>
-                    </div>
-                    
-                    <div class="progress-bar">
-                        <input type="range" name="range" value="0" id="range" class="range" min="0" step="1" max="100">
-                        <!-- <div class="current-range"></div> -->
-                        <!-- <progress id="progress" class="progress" type="range" value="90" min="0" step="1" max="100"> </progress> -->
-                        <div class="timer">
-                            <span class="current_time">0:00</span>
-                            <span class="duration_time"></span>
-                        </div>
-                    </div>
-            
-                   
-            
-                    <audio src="" id="audio"></audio>
+            <div class="music-onPlay-menu">
+        
+                <div class="entire-background-img-wrap"></div>
+                <div class="entire-background-color"></div>
+                <!-- <div class="entire-background-img"></div> -->
                 
-                </div>
-            
-                <div class="play-list-wrap">
-                    <div class="play-list">
-                             <!-- song 1  -->
+                       
+                    
+                        <div class="music-menu">
+                            <div class="background-img"></div>
                             
-                      
-                    </div>
+                            
+                            <div class="menu-song-info">
+                                <div class="song_img-wrap">
+                                    <img src="" class="song_img">    
+                                    </img>
+                        
+                                </div>
+                                
+                                <div class="song-info-wrap">
+
+                                    <div class="song_name">
+                                        Yêu em hơn mỗi ngày
+                                    </div>
     
+                                    <div class="song_singer">
+                                        Andiez
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                           
+                    
+                            <div class="music-menu_control">
+                                <div class="progress-bar">
+                                    <input type="range" name="range" value="0" id="range" class="range" min="0" step="1" max="100">
+                                    <!-- <div class="current-range"></div> -->
+                                    <!-- <progress id="progress" class="progress" type="range" value="90" min="0" step="1" max="100"> </progress> -->
+                                    <div class="timer">
+                                        <span class="current_time">0:00</span>
+                                        <span class="duration_time"></span>
+                                    </div>
+                                </div>
+                                <div class="control-icon">
+                                    <div class="repeat">
+                                        <i class="jsChangeIcon icon fa-solid fa-arrow-rotate-right"></i>
+                                    </div>
+                                    <div id="prev">
+                                        <i class=" icon jsChangeIcon fa-solid fa-backward-step"></i>
+                                    </div>
+                                    
+                                    <div id="play-icon-wrap">
+                                        <i class=" icon play-icon fa-solid fa-play"></i>
+                                        <i class=" icon pause-icon fa-solid fa-pause"></i>
+                                    </div>
+                                    <div id="next">
+                                        <i class=" icon jsChangeIcon fa-solid fa-forward-step"></i>
+                                    </div>
+                                    <div class="random">
+                                            <i class="jsChangeIcon icon fa-solid fa-shuffle"></i>
+                                    </div>
+                    
+                    
+                                </div>
+                                
+                                <div class="volume-block">
+                                    <i class="fa-solid fa-volume-low icon"></i>
+                                    <input type="range" id="volume" max="100" min="0" step="1" value="50">
+                                    <i class="fa-solid fa-volume-high icon"></i>
+                                </div>
+
+                                <div class="playlist-btn-wrap">
+                                    <div class="playlist-btn-border">
+
+                                        <i class="icon fa-solid fa-list-ul playlist-btn"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                           
+
+
+                            <audio src="" id="audio"></audio>
+                        
+                        
+                            <div class="wrap_song-blur-bar">
+
+                                <div class="play-list-wrap">
+                                    <div class="play-list">
+                                             <!-- song 1  -->
+                                            
+                                    
+                                    </div> 
     
-                </div>            
+                                </div>
+                                <div class="blur-bar"></div>            
+                            </div>
+                        </div>
+                    
+                        
+                        
+            
+                       
+            
+                  
+      
     
-               
-    
-          
-    </div>
+        </div>
+
+        
 
     <script src="/assets/js/index.js" type="module"></script>
 

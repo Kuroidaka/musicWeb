@@ -1,4 +1,5 @@
-import {songs} from './song.js'
+// import {songs} from './song.js'
+// import playListView from './playListView.js';
 
 const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
@@ -6,10 +7,10 @@ const $$ = document.querySelectorAll.bind(document);
 
 let musicMenuHeight = $('.music-menu').clientHeight ; 
 var playListFix = $('.play-list');
-var playListWrapFix = $('.play-list-wrap');
+var playListWrap = $('.play-list-wrap');
 const heading = $('.music-menu .song_name');
-        // const currentSongImage = $('.song_img');
-        const currentSongImage = $('.song_img-wrap');
+        const currentSongImageWrap = $('.song_img-wrap');
+        const currentSongImage = $('.song_img');
         const audio = $('#audio');
         const playBtn = $('.play-icon'); 
         const pauseBtn = $('.pause-icon');
@@ -23,13 +24,18 @@ const heading = $('.music-menu .song_name');
         const songDurationTime = $('.duration_time');
         const songCurrentTime = $('.current_time');
         const currentBar = $('.current-range');
-        const entireBackgroundImage = $('.entire-background-img');
+        // const entireBackgroundImage = $('.entire-background-img');
         const entireBackgroundImageWrap = $('.entire-background-img-wrap');
-        
-        
-        const rangeInputs = $$('input[type="range"]')
-
+        const playlistBtn = $('.playlist-btn');
+        const menuSongInfo = $('.menu-song-info');
+        const songName =$('.song_name');
+        const songSinger =$('.song_singer');
+        const songInfo =$('.song-info-wrap');
+        const rangeInputs = $$('input[type="range"]');
+        const volumeMenu = $('#volume');
+        const blurBar =$('.blur-bar');
         const PLAYER_STORAGE_KEY = 'WEB_PLAYER';
+
 
 
 
@@ -53,11 +59,81 @@ const app = {
     updateCurrentIndex: function() {
         localStorage.setItem('current song index', JSON.stringify(this.currentIndex));
     },
-    // isplaying : false,
+    isPlaying : false,
     isRandom : false,
     isRepeat : false,
+    isListOpen : false,
     config: JSON.parse(localStorage.getItem(PLAYER_STORAGE_KEY)) || {},
-    songs: songs,
+    songs: [
+        {
+            name: 'Perfect ',
+            singer: 'Ed Sheeran',
+            path: './assets/songs/Vietsub - Perfect - Ed Sheeran - Lyrics Video.mp3',
+            image: '/assets/img/song/Ed_Sheeran_Perfect_Music_Video-262499921-large.jpeg'
+        },
+        {
+            name: 'Yêu em hơn mỗi ngày',
+            singer: 'Andiez',
+            path: './assets/songs/Yêu Em Hơn Mỗi Ngày - Andiez - Official MV.mp3',
+            image: '/assets/img/song/Yêu em hơn mỗi ngày.jpg'
+        },
+        {
+            name: 'Buồn thì cứ khóc đi',
+            singer: 'Lynk Lee',
+            path: './assets/songs/Buồn Thì Cứ Khóc Đi - Lynk Lee - Official MV.mp3',
+            image: '/assets/img/song/buồn thì cứ khóc.jpeg'
+        },
+        {
+            name: 'Kẻ Theo Đuổi Ánh Sáng',
+            singer: 'Huy Vạc x Tiến Nguyễn',
+            path: './assets/songs/Kẻ Theo Đuổi Ánh Sáng - Huy Vạc x Tiến Nguyễn (Official MV).mp3',
+            image: '/assets/img/song/Kể theo đuổi ánh sáng.jpg'
+        },
+        {
+            name: 'Miền an nhiên',
+            singer: 'Phạm Minh Thành',
+            path: './assets/songs/Miền an nhiên -Lyrics- - Phạm Minh Thành.mp3',
+            image: '/assets/img/song/Miền an nhiên.jpeg'
+        },
+        {
+            name: 'Răng Khôn',
+            singer: 'PHÍ PHƯƠNG ANH',
+            path: './assets/songs/PHÍ PHƯƠNG ANH ft. RIN9 - Răng Khôn - Official Music Video.mp3',
+            image: '/assets/img/song/Răng khôn.jpeg'
+        },
+        {
+            name: 'Bông hoa đẹp nhất',
+            singer: 'QUÂN A.P',
+            path: './assets/songs/QUÂN A.P - BÔNG HOA ĐẸP NHẤT - OFFICIAL MUSIC VIDEO.mp3',
+            image: '/assets/img/song/Bông hoa đẹp nhất.jpeg'
+        },
+        {
+            name: 'Quên đặt tên',
+            singer: 'Phạm Nguyên Ngọc',
+            path: './assets/songs/QUÊN ĐẶT TÊN - Phạm Nguyên Ngọc (OFFICIAL MV).mp3',
+            image: '/assets/img/song/Quên đặt tên.jpeg'
+        },
+        {
+            name: 'Nghe Như Tình Yêu',
+            singer: 'HIEUTHUHAI',
+            path: './assets/songs/HIEUTHUHAI - Nghe Như Tình Yêu (prod. by Kewtiie) [Official Lyric Video].mp3',
+            image: '/assets/img/song/Nghe như tình yêu.jpeg'
+        },
+        {
+            name: 'LỜI ĐƯỜNG MẬT',
+            singer: 'HIEUTHUHAI',
+            path: './assets/songs/LỜI ĐƯỜNG MẬT - LYLY ft HIEUTHUHAI (Official Music Video).mp3',
+            image: '/assets/img/song/Lời đường mật.jpeg'
+        },
+        {
+            name: 'Xem Như Tôi Từng Cưới Được Cô Ấy',
+            singer: 'Mạc Khiếu Tỷ Tỷ',
+            path: './assets/songs/[Vietsub] Xem Như Tôi Từng Cưới Được Cô Ấy - Mạc Khiếu Tỷ Tỷ - 当我娶过她 - 莫叫姐姐.mp3',
+            image: '/assets/img/song/coi như tôi cưới cô ấy.jpeg'
+        },
+    
+    
+    ],
     setConfig: function(key, value) {
         this.config[key] = value;
         localStorage.setItem(PLAYER_STORAGE_KEY,JSON.stringify(this.config));
@@ -130,12 +206,14 @@ const app = {
         const playBtnActive = $('.play-icon.play_active');
         playBtn.onclick = function() { 
                 audio.play();    
-                this.animate([
+                _this.isPlaying = true;
+                _this.changeSizeImage();
+                pauseBtn.animate([
                     {
                         transform: 'scale(1)'   
                     },
                     {
-                        transform: 'scale(1.3)'   
+                        transform: 'scale(0.8)'   
                     },
                     {
                         transform: 'scale(1)'   
@@ -148,14 +226,16 @@ const app = {
                 })
         }
 
-        pauseBtn.onclick = () =>{
+        pauseBtn.onclick = function() {
             audio.pause();
-            this.animate([
+            _this.isPlaying = false;
+            _this.changeSizeImage();
+            playBtn.animate([
                 {
                     transform: 'scale(1)'   
                 },
                 {
-                    transform: 'scale(1.3)'   
+                    transform: 'scale(0.8)'   
                 },
                 {
                     transform: 'scale(1)'   
@@ -195,7 +275,10 @@ const app = {
             if(audio.duration){
                 const currentPercent = audio.currentTime/audio.duration*100;  
                     range.value = currentPercent;
+                    range.style.backgroundSize = `${currentPercent}% 100%`
             }
+
+
             // _this.currentBarUpdate();
         } 
 
@@ -337,7 +420,6 @@ const app = {
         randomBtn.onclick = function() {
             this.classList.toggle('active');
             _this.isRandom = this.classList.contains('active');
-            this.style.opacity = '1';
             // if(!_this.isRandom){
             //     this.style.opacity = '0.5';
 
@@ -352,7 +434,7 @@ const app = {
         repeatBtn.onclick = function() {
             this.classList.toggle('active');
             _this.isRepeat = this.classList.contains('active');
-            this.style.opacity = '1';
+          
             // if(!_this.isRepeat){
             //     this.style.opacity = '0.5';
             // }
@@ -377,9 +459,75 @@ const app = {
             
         }
 
-        // when input range
+        playlistBtn.onclick = function() {
+            
+          
+            
+            var currentActiveSongItem = $('.song-item.active');
+            if(_this.isListOpen){
+               
+                this.style.backgroundColor = 'transparent';
+                this.style.border= '5px solid transparent';
+                this.style.color= 'var(--white-color)';
+
+
+                currentSongImageWrap.style.width = _this.iData.wW + 'px';
+                // console.log(currentSongImageWrap.style.width,_this.iData.wW );
+                currentSongImageWrap.style.height = _this.iData.wH + 'px';
+                
+                currentSongImage.style.width = _this.iData.w + 'px';
+                currentSongImage.style.height = _this.iData.h + 'px';
+                _this.isListOpen = !_this.isListOpen;
+                songName.style.display = 'none';
+                currentSongImageWrap.style.border = '5px solid rgb(99 97 255)';
+                setTimeout(function() {
+                    menuSongInfo.style.flexDirection = 'column'
+                    songName.style.display = 'block';
+                  }, 100 );
+               
+                playListWrap.style.display = 'none'
+                blurBar.style.display = 'none';
+            }
+            else {
+                this.style.backgroundColor = 'var(--white-color)';
+                this.style.border= '5px solid var(--white-color)';
+                this.style.borderRadius= '4px';
+                this.style.color= 'var(--black-color)';
+                
+
+                currentSongImageWrap.style.width = '85px'
+                currentSongImageWrap.style.height = '85px'
+                currentSongImage.style.width = '65px'
+                currentSongImage.style.height = '65px'
+                menuSongInfo.style.flexDirection = 'row'
+                songName.style.fontSize = '22px'
+                songSinger.style.fontSize = '18px'
+                _this.isListOpen = !_this.isListOpen;
+                songInfo.style.display = 'none';
+                currentSongImageWrap.style.border = 'transparent'
+                setTimeout(function() {
+                    // menuSongInfo.style.flexDirection = 'column'
+
+                    songInfo.style.display = 'block';
+                  
+                  }, 10 );
+                setTimeout(function() {
+                    playListWrap.style.display = 'block';
+                    blurBar.style.display = 'block';
+                    _this.changeView(currentActiveSongItem);
+                  }, 200);
+                
+            }
+            
+
+        }
+
+        volumeMenu.oninput = function(e){
+            audio.volume = e.target.value/100;
+           this.style.backgroundSize = `${e.target.value}% 100%`
+        }
        
-        
+       
     },
     activeCurrentSong : function( activeIndex) {
         
@@ -387,6 +535,46 @@ const app = {
         currentSongItems[activeIndex].classList.remove('active');
         currentSongItems[this.currentIndex].classList.add('active');
         
+    },
+    iData: {
+
+    },
+    changeSizeImage: function () {
+        if(!this.isListOpen){
+            if(this.isPlaying){
+                currentSongImageWrap.style.transitionDuration = '0.3s'
+                currentSongImageWrap.style.transform = 'scale(0.87)';
+                setTimeout(
+                    function() {
+                        currentSongImageWrap.style.transform = 'scale(0.8)';
+                    },
+                400
+                )   
+            }
+            else {
+                currentSongImageWrap.style.transform = 'scale(0.6)';
+                currentSongImageWrap.style.transitionDuration = '0.15s'
+
+    
+            }
+                
+        }
+        
+        
+        
+    },
+    getFirstImageSize: function() {
+        const ImgWrapW = currentSongImageWrap.offsetWidth;
+        const ImgWrapH = currentSongImageWrap.offsetHeight;
+        const ImgW = currentSongImage.offsetWidth;
+        const ImgH = currentSongImage.offsetHeight;
+
+        this.iData = {
+            wW : ImgWrapW,
+            wH : ImgWrapH,
+            w : ImgW,
+            h : ImgH
+        }
     },
     defineProperties: function() {
         Object.defineProperty(this, 'currentSong', { 
@@ -411,24 +599,25 @@ const app = {
     },    
     loadCurrentSong: function() {
        
-        heading.textContent = this.currentSong.name;
-        currentSongImage.style.backgroundImage = `url("${this.currentSong.image}")`;
-        entireBackgroundImage.style.backgroundImage = `url("${this.currentSong.image}")`;
+        heading.textContent = this.songs[this.currentIndex].name;
+        songSinger.textContent = this.currentSong.singer;
+        currentSongImage.src = this.currentSong.image;
+        // entireBackgroundImage.style.backgroundImage = `url("${this.currentSong.image}")`;
         entireBackgroundImageWrap.style.backgroundImage = `url("${this.currentSong.image}")`;
         // console.log(this.currentSong.image,currentSongImage);
-
+        range.style.backgroundSize = '0% 100%';
         audio.src = this.currentSong.path;
         this.updateCurrentIndex();
         const currentSongItems = $$('.song-item'); 
         this.activeCurrentSong(this.currentIndex);
         this.changeView(currentSongItems[this.currentIndex]);
+        this.changeSizeImage();
     },
     loadConfig: function() {
         this.isRandom = this.config.isRandom;
         this.isRepeat = this.config.isRepeat;
         if(this.isRandom){
             randomBtn.classList.toggle('active');
-            randomBtn.style.opacity = '1';
             // if(!this.isRandom){
             //     randomBtn.style.opacity = '0.5';
             // }
@@ -436,7 +625,6 @@ const app = {
 
         if(this.isRepeat){
             repeatBtn.classList.toggle('active');
-            repeatBtn.style.opacity = '1';
             // if(!this.isRepeat){
             //     repeatBtn.style.opacity = '0.5';
             // }
@@ -456,24 +644,24 @@ const app = {
     },
     menuIconchange : function() {
         menuBtns.forEach((menuBtn) => {
-            menuBtn.onclick =function() {
-                    this.animate([
-                        {
-                            transform: 'scale(1)'   
-                        },
-                        {
-                            transform: 'scale(1.3)'   
-                        },
-                        {
-                            transform: 'scale(1)'   
-                        }
+                menuBtn.onclick =function() {
+                        this.animate([
+                            {
+                                transform: 'scale(1)'   
+                            },
+                            {
+                                transform: 'scale(0.8)'   
+                            },
+                            {
+                                transform: 'scale(1)'   
+                            }
 
-                    ],
-                    {
-                        duration: 500,
-                        iterations: 1
-                    })
-            }
+                        ],
+                        {
+                            duration: 300,
+                            iterations: 1
+                        })
+                }
 
         }
         )
@@ -530,8 +718,10 @@ const app = {
         this.defineProperties();
         this.render();
         this.loadConfig();
+        this.getFirstImageSize();
         this.handleEvent();
         this.loadCurrentSong();
+        
     }   
 
 }
@@ -542,3 +732,7 @@ app.start();
 
 
 
+// const ngrok = require('ngrok');
+// (async function() {
+//   const url = await ngrok.connect();
+// })();
