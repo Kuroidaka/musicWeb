@@ -1,4 +1,4 @@
-import {songs} from './song.js'
+import {songs} from './assets/js/song.js'
 // import playListView from './playListView.js';
 
 const $ = document.querySelector.bind(document);
